@@ -107,32 +107,6 @@ span{
     line-height: 1.2;
 }
 
-
-.btn-box{
-    width: 345px;
-    display: flex;
-    gap: 2em;
-}
-
-.btn-1{
-    padding: 15px 28px;
-    background-color: #000080;
-    color: white;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    transition: 0.3s ease;
-    cursor: pointer;
-}
-
-.btn-1:hover{
-    background-color: white;
-    color: black;
-    border: 2px solid black;
-}
-
 .img-box img{
     border-radius: 50%;
     width: 550px;
