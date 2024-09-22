@@ -233,12 +233,6 @@ html{
         font-size: 42px;
     }
 
-    .btn-box {
-        width: 100%;
-        justify-content: center;
-        gap: 1em;
-    }
-
     .img-box img {
         width: 300px;
     }
