@@ -220,6 +220,10 @@ span{
     border: 2px solid #000080;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
 @media only screen and (max-width: 768px) {
 
     header {
