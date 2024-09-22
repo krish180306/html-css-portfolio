@@ -219,3 +219,71 @@ span{
     color: #000080;
     border: 2px solid #000080;
 }
+
+@media only screen and (max-width: 768px) {
+
+    header {
+        padding: 20px 5%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .navbar a {
+        font-size: 16px;
+        margin: 0 10px;
+    }
+
+    .contact {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+
+    .home {
+        flex-direction: column;
+        padding: 110px 5%;
+    }
+
+    .home-content h3 {
+        font-size: 32px;
+    }
+
+    .home-content h2 {
+        font-size: 42px;
+    }
+
+    .btn-box {
+        width: 100%;
+        justify-content: center;
+        gap: 1em;
+    }
+
+    .img-box img {
+        width: 300px;
+    }
+
+    .about {
+        flex-direction: column;
+        padding: 50px 5%;
+        gap: 2em;
+    }
+
+    .about-img img {
+        width: 300px;
+    }
+
+    .about-content h2 {
+        font-size: 32px;
+    }
+
+    .about-content h3 {
+        font-size: 42px;
+    }
+
+    .about-content p {
+        font-size: 18px;
+    }
+}
