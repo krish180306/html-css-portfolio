@@ -224,7 +224,7 @@ span{
 
     header {
         padding: 20px 5%;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
     }
 
