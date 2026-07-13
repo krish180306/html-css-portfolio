@@ -31,12 +31,12 @@ dist-ssr
 *.sw?
 
 # Root-level stray assets (not part of source)
-20120725171132-1_0.jpg
-wallpaper.jpg
+/20120725171132-1_0.jpg
+/wallpaper.jpg
 
 # Python scripts (utility only)
-remove_bg.py
-remove_bg_smooth.py
+/remove_bg.py
+/remove_bg_smooth.py
 
 # OS files
 Thumbs.db
