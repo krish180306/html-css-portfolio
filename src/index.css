@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CRT flicker animation ─────────────────────────────────────────── */
+@keyframes crt-flicker {
+  0%,  100% { opacity: 0;    }
+  3%         { opacity: 0.03; }
+  4%         { opacity: 0;    }
+  35%        { opacity: 0;    }
+  36%        { opacity: 0.025;}
+  37%        { opacity: 0;    }
+  70%        { opacity: 0;    }
+  71%        { opacity: 0.04; }
+  72%        { opacity: 0;    }
+  73%        { opacity: 0.015;}
+  74%        { opacity: 0;    }
+}
+
+.crt-flicker {
+  animation: crt-flicker 9s steps(1) infinite;
+}
+
+@layer base {
+  body {
+    @apply font-sans m-0 p-0 overflow-hidden text-black select-none;
+    background-color: #004E98;
+  }
+}
+
+@layer components {
+  .xp-window {
+    @apply bg-xp-windowBg border border-xp-border rounded-t-lg shadow-xl overflow-hidden flex flex-col;
+  }
+  
+  .xp-titlebar {
+    @apply bg-titlebar-gradient text-white px-1 py-[2px] flex justify-between items-center select-none font-bold text-sm tracking-wide;
+  }
+
+  .xp-titlebar-inactive {
+    @apply bg-titlebar-inactive;
+  }
+  
+  .xp-button {
+    @apply flex items-center justify-center w-5 h-5 rounded-sm border border-white/40 shadow-sm text-white;
+  }
+  
+  .xp-close-button {
+    @apply bg-red-500 hover:bg-red-400 active:bg-red-600;
+  }
+
+  .xp-minimize-button, .xp-maximize-button {
+    @apply bg-blue-500 hover:bg-blue-400 active:bg-blue-600;
+  }
+}

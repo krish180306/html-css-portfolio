@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B00"/>
+      <stop offset="100%" stop-color="#E53900"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#80C71E"/>
+      <stop offset="100%" stop-color="#4B960E"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4B9AFF"/>
+      <stop offset="100%" stop-color="#004BE4"/>
+    </linearGradient>
+    <linearGradient id="yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD600"/>
+      <stop offset="100%" stop-color="#E19800"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)" transform="scale(1.8) translate(5, 5)">
+    <!-- Red -->
+    <path d="M 12 40 C 25 35, 35 35, 48 38 L 48 8 C 35 5, 25 5, 12 10 Z" fill="url(#red)" stroke="#ffffff" stroke-width="0.5"/>
+    <!-- Green -->
+    <path d="M 52 39 C 65 42, 75 42, 88 35 L 88 5 C 75 12, 65 12, 52 9 Z" fill="url(#green)" stroke="#ffffff" stroke-width="0.5"/>
+    <!-- Blue -->
+    <path d="M 10 75 C 23 70, 33 70, 46 73 L 46 43 C 33 40, 23 40, 10 45 Z" fill="url(#blue)" stroke="#ffffff" stroke-width="0.5"/>
+    <!-- Yellow -->
+    <path d="M 50 74 C 63 77, 73 77, 86 70 L 86 40 C 73 47, 63 47, 50 44 Z" fill="url(#yellow)" stroke="#ffffff" stroke-width="0.5"/>
+  </g>
+</svg>

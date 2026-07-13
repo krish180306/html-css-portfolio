@@ -1,0 +1,50 @@
+import { Desktop } from './components/Desktop';
+import { Taskbar } from './components/Taskbar';
+import { StartMenu } from './components/StartMenu';
+import { useStore } from './store';
+import { WindowComponent } from './components/WindowComponent';
+import { MyComputer } from './apps/MyComputer';
+import { Notepad } from './apps/Notepad';
+import { InternetExplorer } from './apps/InternetExplorer';
+import { Terminal } from './apps/Terminal';
+import { Paint } from './apps/Paint';
+import { BootScreen } from './components/BootScreen';
+import CRTOverlay from './components/CRTOverlay';
+
+function App() {
+  const { windows, systemState } = useStore();
+
+  if (systemState !== 'running') {
+    return (
+      <>
+        <BootScreen />
+        <CRTOverlay />
+      </>
+    );
+  }
+
+  return (
+    <div className="w-screen h-screen overflow-hidden flex flex-col font-sans select-none text-black bg-[#004E98]">
+      <Desktop />
+
+      {/* Windows Layer */}
+      {windows.map((win) => (
+        <WindowComponent key={win.id} window={win}>
+          {win.appType === 'mycomputer' && <MyComputer initialView={win.appProps?.initialView} />}
+          {win.appType === 'notepad' && <Notepad initialText={win.appProps?.initialText} />}
+          {win.appType === 'ie' && <InternetExplorer />}
+          {win.appType === 'cmd' && <Terminal />}
+          {win.appType === 'paint' && <Paint />}
+        </WindowComponent>
+      ))}
+
+      <StartMenu />
+      <Taskbar />
+
+      {/* CRT monitor overlay — always on top, never blocks clicks */}
+      <CRTOverlay />
+    </div>
+  );
+}
+
+export default App;
