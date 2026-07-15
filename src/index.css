@@ -22,11 +22,19 @@
 }
 
 @layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
   body {
     @apply font-sans m-0 p-0 overflow-hidden text-black select-none;
     background-color: #004E98;
+    touch-action: none;
+    overscroll-behavior: none;
   }
 }
+
 
 @layer components {
   .xp-window {

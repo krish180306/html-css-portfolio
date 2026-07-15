@@ -1,55 +1,59 @@
 import React, { useEffect } from 'react';
 import { useStore } from '../store';
 import { DesktopIcon } from './DesktopIcon';
+import { useMobile } from '../hooks/useMobile';
 import wallpaper from '../assets/wallpaper.jpg';
 
 export const Desktop: React.FC = () => {
   const { closeStartMenu, openWindow } = useStore();
+  const isMobile = useMobile();
 
-  // Handle clicking on empty desktop to deselect icons
   useEffect(() => {
-    const handleGlobalClick = () => {
-      // You could add logic here to clear selected icon states if you put that state in store
-    };
+    const handleGlobalClick = () => {};
     window.addEventListener('click', handleGlobalClick);
     return () => window.removeEventListener('click', handleGlobalClick);
   }, []);
 
   return (
-    <div 
+    <div
       className="w-screen h-screen bg-cover bg-center overflow-hidden flex flex-col relative"
       style={{ backgroundImage: `url(${wallpaper})` }}
       onClick={closeStartMenu}
     >
-      <div className="flex-1 relative z-0 p-2 flex flex-col flex-wrap content-start gap-4 h-full pt-4">
-        <DesktopIcon 
-          title="My Computer" 
-          icon="💻" 
-          onDoubleClick={() => openWindow('mycomputer', 'My Computer', '💻', 'mycomputer', { initialView: 'root' })} 
+      {/* Icons grid */}
+      <div className={`flex-1 relative z-0 p-3 ${
+        isMobile
+          ? 'grid grid-cols-3 content-start gap-4 pt-6'
+          : 'flex flex-col flex-wrap content-start gap-4 pt-4'
+      }`}>
+        <DesktopIcon
+          title="My Computer"
+          icon="💻"
+          onDoubleClick={() => openWindow('mycomputer', 'My Computer', '💻', 'mycomputer', { initialView: 'root' })}
         />
-        <DesktopIcon 
-          title="My Documents" 
-          icon="📁" 
-          onDoubleClick={() => openWindow('mydocuments', 'My Documents', '📁', 'mycomputer', { initialView: 'documents' })} 
+        <DesktopIcon
+          title="My Documents"
+          icon="📁"
+          onDoubleClick={() => openWindow('mydocuments', 'My Documents', '📁', 'mycomputer', { initialView: 'documents' })}
         />
-        <DesktopIcon 
-          title="Internet Explorer" 
-          icon="🌐" 
-          onDoubleClick={() => openWindow('ie', 'Internet Explorer', '🌐', 'ie')} 
+        <DesktopIcon
+          title="Internet Explorer"
+          icon="🌐"
+          onDoubleClick={() => openWindow('ie', 'Internet Explorer', '🌐', 'ie')}
         />
-        <DesktopIcon 
-          title="Recycle Bin" 
-          icon="🗑️" 
-          onDoubleClick={() => openWindow('recyclebin', 'Recycle Bin', '🗑️', 'mycomputer')} 
+        <DesktopIcon
+          title="Recycle Bin"
+          icon="🗑️"
+          onDoubleClick={() => openWindow('recyclebin', 'Recycle Bin', '🗑️', 'mycomputer')}
         />
-        <DesktopIcon 
-          title="Notepad" 
-          icon="📝" 
-          onDoubleClick={() => openWindow('notepad', 'Notepad', '📝', 'notepad')} 
+        <DesktopIcon
+          title="Notepad"
+          icon="📝"
+          onDoubleClick={() => openWindow('notepad', 'Notepad', '📝', 'notepad')}
         />
-        <DesktopIcon 
-          title="Resume.txt" 
-          icon="📄" 
+        <DesktopIcon
+          title="Resume.txt"
+          icon="📄"
           onDoubleClick={() => openWindow('resume', 'Resume.txt - Notepad', '📝', 'notepad', {
             initialText: `P SAI KRISHNAN
 +91 8368836251 | sai.krish6081@gmail.com | Chennai, Tamil Nadu
@@ -92,12 +96,9 @@ ACHIEVEMENTS & CERTIFICATIONS
 - 2x Hackathon Winner
 - Published research paper at Sixth International Conference on Optical & Wireless Technologies (OWT2025).
 - Quantitative Research Virtual Experience — JPMorgan Chase & Co., Forage (Feb 2025)`
-          })} 
+          })}
         />
       </div>
-
-      {/* <StartMenu /> */}
-      {/* <Taskbar /> */}
     </div>
   );
 };
