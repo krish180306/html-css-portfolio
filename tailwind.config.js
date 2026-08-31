@@ -26,7 +26,8 @@ export default {
         'titlebar-gradient': 'linear-gradient(180deg, #0058e6 0%, #3a93ff 8%, #288eff 40%, #127dff 88%, #036bfe 100%)',
         'titlebar-inactive': 'linear-gradient(180deg, #7697e7 0%, #7e9ee3 8%, #94b2ec 40%, #7697e7 88%, #5b7edc 100%)',
         'taskbar-gradient': 'linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%)',
-        'start-gradient': 'linear-gradient(180deg, #3d9538 0%, #46aa40 8%, #4ba946 40%, #3d9538 88%, #317f2b 100%)',
+        'start-gradient': 'linear-gradient(180deg, #82d474 0%, #5cbb4d 10%, #3d9538 28%, #2d7f24 55%, #1f6b19 85%, #123f0c 100%)',
+        'start-gradient-active': 'linear-gradient(180deg, #123f0c 0%, #1f6b19 15%, #2d7f24 50%, #3d9538 85%, #5cbb4d 100%)',
       }
     },
   },

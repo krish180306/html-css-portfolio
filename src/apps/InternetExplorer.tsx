@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { profile } from '../data/profile';
 
 export const InternetExplorer: React.FC = () => {
   const [url, setUrl] = useState('https://portfolio.com/about-me');
@@ -6,81 +7,61 @@ export const InternetExplorer: React.FC = () => {
   const pages: Record<string, React.ReactNode> = {
     'https://portfolio.com/about-me': (
       <div className="p-8 max-w-3xl mx-auto font-serif">
-        <h1 className="text-4xl font-bold text-blue-900 mb-2 border-b-2 border-blue-900 pb-2">P SAI KRISHNAN</h1>
-        <p className="text-sm text-gray-600 mb-6">Computer Science Undergraduate | Vellore Institute of Technology</p>
-        
+        <h1 className="text-4xl font-bold text-blue-900 mb-2 border-b-2 border-blue-900 pb-2">{profile.name.toUpperCase()}</h1>
+        <p className="text-sm text-gray-600 mb-6">{profile.role} | {profile.education.school}</p>
+
         <div className="space-y-6 text-lg">
           <section>
             <h2 className="text-2xl font-bold text-blue-800 mb-3">Objective</h2>
-            <p className="leading-relaxed">
-              Computer Science undergraduate at Vellore Institute of Technology with interests in machine learning and full-stack web development. Passionate about building intelligent data-driven applications and scalable web platforms while gaining hands-on experience in real-world software development.
-            </p>
+            <p className="leading-relaxed">{profile.objective}</p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-blue-800 mb-3">Education</h2>
             <div className="flex justify-between items-baseline">
-              <span className="font-bold">B.Tech in Computer Science and Engineering</span>
-              <span className="text-sm text-gray-600">Expected 2028</span>
+              <span className="font-bold">{profile.education.degree}</span>
+              <span className="text-sm text-gray-600">{profile.education.period}</span>
             </div>
-            <p>Vellore Institute of Technology, Chennai (CGPA: 8.03)</p>
+            <p>{profile.education.school} ({profile.education.gpa})</p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold text-blue-800 mb-3">Skills</h2>
             <ul className="list-disc pl-6 space-y-1">
-              <li><strong>Languages:</strong> Python, HTML, CSS, C, C++, JavaScript, Java</li>
-              <li><strong>Frameworks/Libraries:</strong> React, Vite, Node.js, Express, Scikit-learn, Tensorflow, PyTorch, NumPy, Pandas</li>
-              <li><strong>Tools/Platforms:</strong> Git, GitHub, Google Colab</li>
-              <li><strong>Databases:</strong> MySQL, SQL*Plus, MongoDB</li>
+              {Object.entries(profile.skills).map(([category, items]) => (
+                <li key={category}><strong>{category}:</strong> {items.join(', ')}</li>
+              ))}
             </ul>
           </section>
         </div>
       </div>
     ),
-    'https://github.com/krish180306': (
+    [profile.github]: (
       <div className="p-8 max-w-4xl mx-auto font-sans">
         <div className="flex items-center gap-4 mb-8 border-b pb-4">
           <div className="text-5xl">🐙</div>
           <div>
-            <h1 className="text-3xl font-bold">krish180306</h1>
+            <h1 className="text-3xl font-bold">{profile.githubHandle}</h1>
             <p className="text-gray-600">Repositories & Open Source Contributions</p>
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="border border-gray-300 p-4 rounded hover:border-blue-500 cursor-pointer">
-            <h3 className="text-xl font-bold text-blue-600 mb-2">ScriptOps</h3>
-            <p className="text-sm mb-3">AI-Powered Film Production Assistant. Built a full-stack AI-powered application in a 24-hour hackathon that won first place.</p>
-            <div className="flex gap-2 text-xs text-gray-600">
-              <span className="px-2 py-1 bg-gray-100 rounded">Python</span>
-              <span className="px-2 py-1 bg-gray-100 rounded">React</span>
-              <span className="px-2 py-1 bg-gray-100 rounded">FastAPI</span>
-            </div>
-          </div>
-          
-          <div className="border border-gray-300 p-4 rounded hover:border-blue-500 cursor-pointer">
-            <h3 className="text-xl font-bold text-blue-600 mb-2">Field2Site</h3>
-            <p className="text-sm mb-3">Full-stack equipment rental marketplace connecting equipment hosts with buyers through role-based dashboards.</p>
-            <div className="flex gap-2 text-xs text-gray-600">
-              <span className="px-2 py-1 bg-gray-100 rounded">React</span>
-              <span className="px-2 py-1 bg-gray-100 rounded">Node.js</span>
-              <span className="px-2 py-1 bg-gray-100 rounded">MySQL</span>
-            </div>
-          </div>
 
-          <div className="border border-gray-300 p-4 rounded hover:border-blue-500 cursor-pointer">
-            <h3 className="text-xl font-bold text-blue-600 mb-2">VisionAssist</h3>
-            <p className="text-sm mb-3">CNN-Based Assistive Face Recognition System using PyTorch and OpenCV to identify individuals from an ESP32-CAM.</p>
-            <div className="flex gap-2 text-xs text-gray-600">
-              <span className="px-2 py-1 bg-gray-100 rounded">PyTorch</span>
-              <span className="px-2 py-1 bg-gray-100 rounded">OpenCV</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {profile.projects.map((p) => (
+            <div key={p.id} className="border border-gray-300 p-4 rounded hover:border-blue-500 cursor-pointer">
+              <h3 className="text-xl font-bold text-blue-600 mb-2">{p.title}</h3>
+              <p className="text-sm mb-3">{p.subtitle}. {p.description}</p>
+              <div className="flex gap-2 text-xs text-gray-600 flex-wrap">
+                {p.tech.map((t) => (
+                  <span key={t} className="px-2 py-1 bg-gray-100 rounded">{t}</span>
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     ),
-    'https://linkedin.com/in/p-sai-krishnan': (
+    [profile.linkedin]: (
       <div className="p-8 max-w-3xl mx-auto font-sans bg-[#F3F2EF] h-full">
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <div className="flex items-start gap-6">
@@ -88,9 +69,9 @@ export const InternetExplorer: React.FC = () => {
               👨‍💻
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">P Sai Krishnan</h1>
-              <p className="text-lg text-gray-600 mb-2">Computer Science Student at Vellore Institute of Technology | Machine Learning & Full-stack</p>
-              <p className="text-sm text-gray-500 mb-4">Chennai, Tamil Nadu, India</p>
+              <h1 className="text-3xl font-bold text-gray-900">{profile.name}</h1>
+              <p className="text-lg text-gray-600 mb-2">{profile.role} at {profile.education.school} | Machine Learning & Full-stack</p>
+              <p className="text-sm text-gray-500 mb-4">{profile.location}, India</p>
               <button className="bg-blue-600 text-white px-6 py-1.5 rounded-full font-bold hover:bg-blue-700">Connect</button>
             </div>
           </div>
@@ -99,21 +80,19 @@ export const InternetExplorer: React.FC = () => {
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <h2 className="text-xl font-bold mb-4">Experience & Achievements</h2>
           <div className="space-y-4">
-            <div>
-              <h3 className="font-bold text-gray-800">Research Experience: Deep Learning for DWDM Demultiplexer</h3>
-              <p className="text-sm text-gray-500">Aug 2025 - Dec 2025</p>
-              <p className="text-sm mt-1">Developed a deep learning based regression model to predict structural and performance parameters of a 2D photonic crystal DWDM demultiplexer using FDTD simulation datasets.</p>
-            </div>
+            {profile.research.map((r) => (
+              <div key={r.title}>
+                <h3 className="font-bold text-gray-800">{r.title}</h3>
+                <p className="text-sm text-gray-500">{r.period}</p>
+                <p className="text-sm mt-1">{r.points[0]}</p>
+              </div>
+            ))}
             <hr />
-            <div>
-              <h3 className="font-bold text-gray-800">2x Hackathon Winner</h3>
-              <p className="text-sm mt-1">Won two competitive hackathons, including building ScriptOps, an AI-powered film production assistant.</p>
-            </div>
-            <hr />
-            <div>
-              <h3 className="font-bold text-gray-800">Quantitative Research Virtual Experience</h3>
-              <p className="text-sm text-gray-500">JPMorgan Chase & Co. | Feb 2025</p>
-            </div>
+            {profile.achievements.map((a) => (
+              <div key={a}>
+                <p className="text-sm">{a}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -181,8 +160,8 @@ export const InternetExplorer: React.FC = () => {
       <div className="flex gap-2 px-2 py-1 bg-[#ECE9D8] text-xs border-b border-[#D5D5D5]">
         <span className="text-gray-500">Links</span>
         <button onClick={() => setUrl('https://portfolio.com/about-me')} className="hover:underline flex items-center gap-1"><span>⭐</span> About Me</button>
-        <button onClick={() => setUrl('https://github.com/krish180306')} className="hover:underline flex items-center gap-1"><span>⭐</span> GitHub</button>
-        <button onClick={() => setUrl('https://linkedin.com/in/p-sai-krishnan')} className="hover:underline flex items-center gap-1"><span>⭐</span> LinkedIn</button>
+        <button onClick={() => setUrl(profile.github)} className="hover:underline flex items-center gap-1"><span>⭐</span> GitHub</button>
+        <button onClick={() => setUrl(profile.linkedin)} className="hover:underline flex items-center gap-1"><span>⭐</span> LinkedIn</button>
       </div>
 
       {/* Content Area */}

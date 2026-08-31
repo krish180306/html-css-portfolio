@@ -1,121 +1,10 @@
 import React, { useState } from 'react';
 import { useStore } from '../store';
+import { profile, resumeText, projectDescriptionText } from '../data/profile';
 
 type ViewState = 'root' | 'projects' | 'documents' | 'shared' | 'c_drive';
 
-const PROJECTS_DATA = {
-  scriptops: {
-    title: 'ScriptOps - Notepad',
-    desc: `PROJECT: ScriptOps — AI-Powered Film Production Assistant (Hackathon Winner)
-
-DESCRIPTION:
-Built a full-stack AI-powered application in a 24-hour hackathon that won first place by automating film pre-production analysis.
-
-TECH STACK:
-- Backend: Python, FastAPI
-- Frontend: React, Recharts
-- AI: Google Gemini Pro API
-
-KEY FEATURES:
-- Automated screenplay parsing and scene breakdowns
-- Character analysis, emotion tracking, and screen-time estimation
-- Interactive visual dashboards mapping budget, prop allocation, and scheduling timelines`
-  },
-  field2site: {
-    title: 'Field2Site - Notepad',
-    desc: `PROJECT: Field2Site — Equipment Rental Marketplace
-
-DESCRIPTION:
-Developed a full-stack equipment rental marketplace facilitating transactions between construction firms and suppliers.
-
-TECH STACK:
-- Backend: Node.js, Express.js
-- Frontend: React, Tailwind CSS, Vite
-- Database: MySQL
-- Authentication: OTP-based secure email verification via Nodemailer
-
-KEY FEATURES:
-- Real-time catalog search and dynamic pricing calculation
-- Multi-tier user roles (Customer, Supplier, Admin)
-- Booking schedules and invoice generation pipelines`
-  },
-  visionassist: {
-    title: 'VisionAssist - Notepad',
-    desc: `PROJECT: VisionAssist — CNN-Based Assistive Face Recognition System
-
-DESCRIPTION:
-Developed a deep-learning face recognition system to assist visually impaired individuals in recognizing family members and familiar people.
-
-TECH STACK:
-- AI/ML: PyTorch, OpenCV, NumPy, Scikit-learn
-- Pipeline: CNN-based feature extraction and classification
-
-KEY FEATURES:
-- Real-time face tracking and cropping from camera feeds
-- Voice feedback synthesis mapping recognized faces to auditory cues
-- Low-latency processing suitable for edge devices`
-  },
-  dwdm: {
-    title: 'Research_DWDM - Notepad',
-    desc: `RESEARCH PROJECT: Deep Learning Prediction for Photonic Crystal DWDM Demultiplexer
-
-DESCRIPTION:
-Developed a deep learning based regression model to predict structural and performance parameters of a 2D photonic crystal DWDM demultiplexer using FDTD simulation datasets.
-
-PUBLICATIONS:
-- Published research paper at Sixth International Conference on Optical & Wireless Technologies (OWT2025).
-
-TECH STACK:
-- Python, TensorFlow/Keras, Scikit-learn, NumPy, Pandas, Matplotlib
-
-KEY FEATURES:
-- Trained neural network regression model estimating demographic device metrics
-- Realized Mean Squared Error (MSE) < 0.01 with R2 score > 0.98 on predicted parameters
-- Significantly accelerated photonic demultiplexer device optimization from hours to milliseconds`
-  }
-};
-
-const RESUME_TEXT = `P SAI KRISHNAN
-+91 8368836251 | sai.krish6081@gmail.com | Chennai, Tamil Nadu
-LinkedIn: linkedin.com/in/p-sai-krishnan | GitHub: github.com/krish180306
-
-OBJECTIVE
-Computer Science undergraduate at Vellore Institute of Technology with interests in machine learning and full-stack web development. Passionate about building intelligent data-driven applications and scalable web platforms while gaining hands-on experience in real-world software development.
-
-EDUCATION
-B.Tech in Computer Science and Engineering, Vellore Institute of Technology, Chennai
-Expected 2028 | CGPA: 8.03
-
-SKILLS
-Languages: Python, HTML, CSS, C, C++, JavaScript, Java
-Frameworks/Libraries: React, Vite, Node.js, Express, Scikit-learn, Tensorflow, PyTorch, NumPy, Pandas
-Tools/Platforms: Git, GitHub, Google Colab
-Databases: MySQL, SQL*Plus, MongoDB
-
-RESEARCH EXPERIENCE
-Deep Learning Prediction for Photonic Crystal DWDM Demultiplexer (Aug 2025 - Dec 2025)
-- Developed a deep learning based regression model to predict structural and performance parameters of a 2D photonic crystal DWDM demultiplexer using FDTD simulation datasets.
-- Trained machine learning models using Python libraries such as Scikit-learn and NumPy to estimate photonic device design parameters.
-- Evaluated model performance using Mean Squared Error (MSE) and R2 score to assess prediction accuracy.
-
-PROJECTS
-ScriptOps — AI-Powered Film Production Assistant (Hackathon Winning Project)
-- Built a full-stack AI-powered application in a 24-hour hackathon that won first place by automating film pre-production analysis.
-- Developed backend services using Python and FastAPI.
-- Designed interactive dashboards using React and Recharts.
-
-Field2Site — Equipment Rental Marketplace
-- Developed a full-stack equipment rental marketplace using React (Vite), Node.js/Express, and MySQL.
-- Implemented OTP-based authentication using Nodemailer.
-
-VisionAssist — CNN-Based Assistive Face Recognition System
-- Developed a CNN-based face recognition model using PyTorch and OpenCV.
-- Built an end-to-end assistive vision pipeline.
-
-ACHIEVEMENTS & CERTIFICATIONS
-- 2x Hackathon Winner
-- Published research paper at Sixth International Conference on Optical & Wireless Technologies (OWT2025).
-- Quantitative Research Virtual Experience — JPMorgan Chase & Co., Forage (Feb 2025)`;
+const RESUME_TEXT = resumeText;
 
 const GUEST_WELCOME_TEXT = `Welcome, Guest!
 
@@ -314,42 +203,18 @@ export const MyComputer: React.FC<{ initialView?: ViewState }> = ({ initialView 
                 Folders in Projects (D:) — <span className="font-normal text-gray-500 italic">Double-click to open description file</span>
               </div>
               <div className="flex flex-wrap gap-6 px-2">
-                <div 
-                  onDoubleClick={() => openWindow('notepad_scriptops', 'ScriptOps - Notepad', '📝', 'notepad', { initialText: PROJECTS_DATA.scriptops.desc })}
-                  className="flex items-center gap-3 cursor-pointer w-52 hover:bg-blue-500/10 p-1.5 rounded group select-none border border-transparent hover:border-[#7F9DB9]"
-                >
-                  <span className="text-3xl select-none group-hover:scale-105 transition-transform">📁</span>
-                  <div className="flex flex-col text-xs">
-                    <span className="font-medium text-black">ScriptOps</span>
+                {profile.projects.map((p) => (
+                  <div
+                    key={p.id}
+                    onDoubleClick={() => openWindow(`notepad_${p.id}`, `${p.title} - Notepad`, '📝', 'notepad', { initialText: projectDescriptionText(p.id) })}
+                    className="flex items-center gap-3 cursor-pointer w-52 hover:bg-blue-500/10 p-1.5 rounded group select-none border border-transparent hover:border-[#7F9DB9]"
+                  >
+                    <span className="text-3xl select-none group-hover:scale-105 transition-transform">📁</span>
+                    <div className="flex flex-col text-xs">
+                      <span className="font-medium text-black">{p.title}</span>
+                    </div>
                   </div>
-                </div>
-                <div 
-                  onDoubleClick={() => openWindow('notepad_field2site', 'Field2Site - Notepad', '📝', 'notepad', { initialText: PROJECTS_DATA.field2site.desc })}
-                  className="flex items-center gap-3 cursor-pointer w-52 hover:bg-blue-500/10 p-1.5 rounded group select-none border border-transparent hover:border-[#7F9DB9]"
-                >
-                  <span className="text-3xl select-none group-hover:scale-105 transition-transform">📁</span>
-                  <div className="flex flex-col text-xs">
-                    <span className="font-medium text-black">Field2Site</span>
-                  </div>
-                </div>
-                <div 
-                  onDoubleClick={() => openWindow('notepad_visionassist', 'VisionAssist - Notepad', '📝', 'notepad', { initialText: PROJECTS_DATA.visionassist.desc })}
-                  className="flex items-center gap-3 cursor-pointer w-52 hover:bg-blue-500/10 p-1.5 rounded group select-none border border-transparent hover:border-[#7F9DB9]"
-                >
-                  <span className="text-3xl select-none group-hover:scale-105 transition-transform">📁</span>
-                  <div className="flex flex-col text-xs">
-                    <span className="font-medium text-black">VisionAssist</span>
-                  </div>
-                </div>
-                <div 
-                  onDoubleClick={() => openWindow('notepad_dwdm', 'Research_DWDM - Notepad', '📝', 'notepad', { initialText: PROJECTS_DATA.dwdm.desc })}
-                  className="flex items-center gap-3 cursor-pointer w-52 hover:bg-blue-500/10 p-1.5 rounded group select-none border border-transparent hover:border-[#7F9DB9]"
-                >
-                  <span className="text-3xl select-none group-hover:scale-105 transition-transform">📁</span>
-                  <div className="flex flex-col text-xs">
-                    <span className="font-medium text-black">Research_DWDM</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </>
           )}

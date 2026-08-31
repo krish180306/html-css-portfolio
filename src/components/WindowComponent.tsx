@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Rnd } from 'react-rnd';
-import { useStore } from '../store';
+import { useStore, TASKBAR_HEIGHT } from '../store';
 import type { WindowState } from '../store';
 import { X, Minus, Square, ChevronLeft } from 'lucide-react';
 import { useMobile } from '../hooks/useMobile';
@@ -10,10 +10,15 @@ interface WindowProps {
   children: React.ReactNode;
 }
 
+const SNAP_EDGE = 12;
+
+type SnapRegion = 'left' | 'right' | 'top' | null;
+
 export const WindowComponent: React.FC<WindowProps> = ({ window, children }) => {
-  const { closeWindow, minimizeWindow, maximizeWindow, focusWindow, activeWindowId } = useStore();
+  const { closeWindow, minimizeWindow, maximizeWindow, focusWindow, activeWindowId, moveWindow, resizeWindow, snapWindow } = useStore();
   const isActive = activeWindowId === window.id;
   const isMobile = useMobile();
+  const [snapPreview, setSnapPreview] = useState<SnapRegion>(null);
 
   if (window.minimized) return null;
 
@@ -57,24 +62,48 @@ export const WindowComponent: React.FC<WindowProps> = ({ window, children }) => 
   }
 
   // ── DESKTOP: Rnd draggable/resizable window ──────────────────────────────
+  const snapOverlayRect = (() => {
+    if (!snapPreview) return null;
+    const vw = globalThis.innerWidth;
+    const vh = globalThis.innerHeight - TASKBAR_HEIGHT;
+    if (snapPreview === 'top') return { left: 0, top: 0, width: vw, height: vh };
+    const half = Math.floor(vw / 2);
+    return { left: snapPreview === 'left' ? 0 : half, top: 0, width: half, height: vh };
+  })();
+
   return (
+    <>
     <Rnd
-      default={{
-        x: 50 + (window.zIndex * 15) % 200,
-        y: 50 + (window.zIndex * 15) % 200,
-        width: 600,
-        height: 400,
-      }}
       minWidth={300}
       minHeight={200}
       bounds="parent"
       dragHandleClassName="window-drag-handle"
       onMouseDown={() => focusWindow(window.id)}
+      onDrag={(e) => {
+        const evt = e as MouseEvent;
+        if (typeof evt.clientX !== 'number') return;
+        let next: SnapRegion = null;
+        if (evt.clientY <= SNAP_EDGE) next = 'top';
+        else if (evt.clientX <= SNAP_EDGE) next = 'left';
+        else if (evt.clientX >= globalThis.innerWidth - SNAP_EDGE) next = 'right';
+        setSnapPreview(next);
+      }}
+      onDragStop={(_e, d) => {
+        if (snapPreview) {
+          snapWindow(window.id, snapPreview === 'top' ? 'maximize' : snapPreview);
+          setSnapPreview(null);
+        } else {
+          moveWindow(window.id, d.x, d.y);
+        }
+      }}
+      onResizeStop={(_e, _dir, ref, _delta, pos) => {
+        resizeWindow(window.id, pos.x, pos.y, ref.offsetWidth, ref.offsetHeight);
+      }}
       style={{ zIndex: window.zIndex }}
       disableDragging={window.maximized}
       enableResizing={!window.maximized}
-      size={window.maximized ? { width: '100%', height: '100%' } : undefined}
-      position={window.maximized ? { x: 0, y: 0 } : undefined}
+      size={window.maximized ? { width: '100%', height: '100%' } : { width: window.width, height: window.height }}
+      position={window.maximized ? { x: 0, y: 0 } : { x: window.x, y: window.y }}
       className={`absolute ${window.maximized ? '!w-full !h-full !inset-0' : ''}`}
     >
       <div className={`xp-window w-full h-full ${isActive ? 'shadow-[0_4px_12px_rgba(0,0,0,0.5)]' : 'shadow-[0_2px_6px_rgba(0,0,0,0.3)] opacity-95'}`}>
@@ -118,5 +147,12 @@ export const WindowComponent: React.FC<WindowProps> = ({ window, children }) => 
         </div>
       </div>
     </Rnd>
+    {snapOverlayRect && (
+      <div
+        className="fixed z-[9990] bg-blue-400/25 border-2 border-blue-300 pointer-events-none rounded-sm"
+        style={snapOverlayRect}
+      />
+    )}
+    </>
   );
 };
